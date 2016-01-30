@@ -1,3 +1,3 @@
 class Category < ActiveRecord::Base
-	has_many :meme
+	has_many :memes
 end
