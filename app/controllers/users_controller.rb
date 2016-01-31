@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+	skip_before_action :verify_authenticity_token
 	rescue_from ActiveRecord::RecordNotFound, with: :r_not_found
 	#rescue_from ActionController::ParameterMissing, with: :params_message 
 
@@ -38,8 +39,9 @@ class UsersController < ApplicationController
 	end
 	private 
 	def permit_params
-		params.require(:user).permit(:login, :password, :type_user)
 		puts "--->",params
+		#params.fetch(:user,{}).permit(:login, :password, :type_user)
+		params.require(:user).permit(:login,:password, :type_user)
 	end
 
 	def params_message(error)
