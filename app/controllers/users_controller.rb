@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 	rescue_from ActiveRecord::RecordNotFound, with: :r_not_found
+	#rescue_from ActionController::ParameterMissing, with: :params_message 
 
 	def index
 		u = User.all
@@ -37,7 +38,12 @@ class UsersController < ApplicationController
 	end
 	private 
 	def permit_params
-		params.require(:user).permit(:login, :password, :type)
+		params.require(:user).permit(:login, :password, :type_user)
+		puts "--->",params
+	end
+
+	def params_message(error)
+		render json: {error: error.message}, status: :bad_request
 	end
 
 	def r_not_found(error)
