@@ -3,9 +3,9 @@
 one:
   login: MyString
   password: MyString
-  type: 
+  type_user: MyString
 
 two:
   login: MyString
   password: MyString
-  type: 
+  type_user: MyString

@@ -7,9 +7,6 @@ one:
   link: MyString
   type: 
   category_id: 
-  user_id: 
-  votes: 1
-  type: 
 
 two:
   id_img: MyString
@@ -18,6 +15,3 @@ two:
   link: MyString
   type: 
   category_id: 
-  user_id: 
-  votes: 1
-  type: 
