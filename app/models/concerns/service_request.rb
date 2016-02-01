@@ -1,10 +1,8 @@
 require 'json'
 require 'net/http'
-class Service
-	def initializer(arg1,arg2)
-		meme_serv(arg1,arg2)
-	end
-	private
+module ServiceRequest
+	extend ActiveSupport::Concerns
+	
 	def meme_serv(texto1,texto2,id)
 		@json_request = {
 		  src_image_id: id,#'Dv99KQ'
@@ -28,7 +26,7 @@ class Service
 		}
 		conect
 	end
-
+	private
 	def conect
 		create_uri = URI('http://memecaptain.com/gend_images')
 		create_request = Net::HTTP::Post.new(create_uri)
@@ -47,7 +45,7 @@ class Service
 			    if poll_response.code == '303'
 			      #puts poll_response['Location']
 			      @link = poll_response['Location']
-			      puts "Pepe-> #{@pepe}"
+			      puts "link-> #{@link}"
 
 			      break
 			    end
