@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-	skip_before_action :verify_authenticity_token
 	rescue_from ActiveRecord::RecordNotFound, with: :r_not_found
 	#rescue_from ActionController::ParameterMissing, with: :params_message 
 
