@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202040354) do
+ActiveRecord::Schema.define(version: 20160202042041) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "category_details", force: :cascade do |t|
+    t.integer  "category_id", limit: 4
+    t.integer  "meme_id",     limit: 4
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "category_details", ["category_id"], name: "index_category_details_on_category_id", using: :btree
+  add_index "category_details", ["meme_id"], name: "index_category_details_on_meme_id", using: :btree
 
   create_table "email_details", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -42,12 +52,9 @@ ActiveRecord::Schema.define(version: 20160202040354) do
     t.string   "link",        limit: 255
     t.string   "type_meme",   limit: 255
     t.integer  "vote",        limit: 4
-    t.integer  "category_id", limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
-
-  add_index "memes", ["category_id"], name: "index_memes_on_category_id", using: :btree
 
   create_table "tag_details", force: :cascade do |t|
     t.integer  "meme_id",    limit: 4
@@ -84,9 +91,10 @@ ActiveRecord::Schema.define(version: 20160202040354) do
     t.datetime "updated_at",             null: false
   end
 
+  add_foreign_key "category_details", "categories"
+  add_foreign_key "category_details", "memes"
   add_foreign_key "email_details", "emails"
   add_foreign_key "email_details", "users"
-  add_foreign_key "memes", "categories"
   add_foreign_key "tag_details", "memes"
   add_foreign_key "tag_details", "tags"
   add_foreign_key "user_details", "memes"
