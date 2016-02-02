@@ -19,7 +19,8 @@ class MemesController < ApplicationController
 	def create
 		meme = Meme.new(permit_params)
 		if meme.save
-			render json:{link: "#{meme.link}"}
+			#render json:{link: "#{meme.link}"}
+			redirect_to meme
 		else
 			render json:{message: "No cool", errors: meme.errors.full_message}
 		end

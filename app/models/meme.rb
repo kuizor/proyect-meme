@@ -7,6 +7,7 @@ class Meme < ActiveRecord::Base
   private
   	def meme_creator
 		#puts "-->",meme_serv("Hola","Como estas?","Dv99KQ") 
-		self.link = meme_serv(self.text_top,self.text_buttom,self.id_img) 
+		self.link = meme_serv(self.text_top,self.text_buttom,self.id_img)
+		
 	end
 end

@@ -4,19 +4,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session#:exception
 
 
-  private
-  #def log_in(user)
-   # session[:user_id] = user.id
-  #end
-  #def current_user
-   # @current_user ||= User.find_by(id: session[:user_id])
-  #end
-  #def logged_in?
-  #  !current_user.nil?
-  #end
-#_________________________
-  #private
-  #def current_user
- # 	User.find_by id: session[:user_id] if session[:user_id]
-  #end
+  def authenticate
+     authenticate_or_request_with_http_token do |token, options|
+         @user = User.find_by(token: token)
+     end
+  end
 end

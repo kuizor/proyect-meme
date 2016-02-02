@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160131045551) do
+ActiveRecord::Schema.define(version: 20160131045525) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -32,16 +32,6 @@ ActiveRecord::Schema.define(version: 20160131045551) do
 
   add_index "memes", ["category_id"], name: "index_memes_on_category_id", using: :btree
 
-  create_table "tag_details", force: :cascade do |t|
-    t.integer  "meme_id",    limit: 4
-    t.integer  "tag_id",     limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "tag_details", ["meme_id"], name: "index_tag_details_on_meme_id", using: :btree
-  add_index "tag_details", ["tag_id"], name: "index_tag_details_on_tag_id", using: :btree
-
   create_table "tags", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
@@ -57,6 +47,4 @@ ActiveRecord::Schema.define(version: 20160131045551) do
   end
 
   add_foreign_key "memes", "categories"
-  add_foreign_key "tag_details", "memes"
-  add_foreign_key "tag_details", "tags"
 end
