@@ -1,4 +1,3 @@
-
 class MemesController < ApplicationController
 	
 	def index
@@ -35,7 +34,7 @@ class MemesController < ApplicationController
 	end
 	private 
 	def permit_params
-		params.require(:meme).permit(:id_img, :text_top, :text_buttom)
+		params.require(:meme).permit(:id_img, :text_top, :text_buttom,:type_meme)
 	end
 
 	def r_not_found(error)

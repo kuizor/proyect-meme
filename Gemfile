@@ -30,6 +30,8 @@ gem 'instagram'
 
  gem 'rubysl-securerandom'
 
+ gem 'rest-client','~> 1.8.0'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
