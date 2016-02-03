@@ -3,10 +3,17 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session#:exception
 
+  #before_action :require_login
 
+  private
   def authenticate
-     authenticate_or_request_with_http_token do |token, options|
-         @user = User.find_by(token: token)
-     end
+      authenticate_or_request_with_http_token do |token, options|
+        @user = User.find_by(token: token)
+      end
+  end
+  def require_login
+  	unless authenticate
+  		redirect_to session
+  	end
   end
 end

@@ -7,5 +7,7 @@ Rails.application.routes.draw do
 
   	get	'login' => 'sessions#create'
   	get	'logout' => 'sessions#destroy'
+  	get 'privated' => 'memes#meme_privated'
+  	get 'public' => 'memes#meme_public'
   	#get 'send' => 'emails#create'
 end

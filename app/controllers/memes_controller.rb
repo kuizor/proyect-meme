@@ -1,4 +1,6 @@
 class MemesController < ApplicationController
+	skip_before_action :require_login, only: [:create]
+	#before_action :require_login
 	
 	def index
 		if (a = params[:id])
@@ -18,8 +20,8 @@ class MemesController < ApplicationController
 	def create
 		meme = Meme.new(permit_params)
 		if meme.save
-			#render json:{link: "#{meme.link}"}
-			redirect_to meme
+			render json:{link: "#{meme.link}"}
+			#redirect_to meme
 		else
 			render json:{message: "No cool", errors: meme.errors.full_message}
 		end
@@ -31,6 +33,10 @@ class MemesController < ApplicationController
 		else
 			render json:{message: "no Cool"}
 		end
+	end
+	def meme_privated
+		#valida usuario
+		meme = Meme.find(params[:id])
 	end
 	private 
 	def permit_params

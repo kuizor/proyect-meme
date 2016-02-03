@@ -8,6 +8,7 @@ class CreateMemes < ActiveRecord::Migration
       t.string :type_meme
       t.integer :vote
 
+      t.references :user, index: true, foreign_key: true
       t.timestamps null: false
     end
   end

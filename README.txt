@@ -9,3 +9,14 @@ Y el Json:
    "email_name":"brazzoduro26@gmail.com",
    "link":"http://i.memecaptain.com/gend_images/yhZJaw.jpg"
 }
+
+
+Para que los usuarios puedan elegir su MEME Privado:
+
+El enlace es el siguiente: 
+	http://localhost:3000/privated
+
+
+El formato de cabecera  de Autorizacion  para la autenticacion basada en toquen se ve asi:
+
+Autorización: Token token = 87348734u
