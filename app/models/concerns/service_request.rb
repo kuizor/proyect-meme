@@ -38,19 +38,7 @@ module ServiceRequest
 		Net::HTTP.start(create_uri.hostname, create_uri.port) do |http|
 		  create_response = http.request(create_request)
 
-		  poll_uri = URI(create_response['Location'])
-		  poll_request = Net::HTTP::Get.new(poll_uri)
-		  10.times do
-		    poll_response = http.request(poll_request)
-		    puts "poll response #{poll_response.code}"
-		    if poll_response.code == '303'
-		      @link = poll_response['Location']
-		      break
-		    end
-		    parsed_body = JSON.parse(poll_response.body)
-		    fail(parsed_body['error']) if parsed_body['error']
-		    sleep 3
-		  end
+		  @link = URI(create_response['Location'])
 		end
 		return @link
 	end

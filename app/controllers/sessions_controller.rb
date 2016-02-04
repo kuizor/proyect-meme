@@ -1,12 +1,12 @@
 require 'securerandom'
 class SessionsController < ApplicationController
 	before_action :authenticate, except: [:create]
-	#skip_before_action :require_login, only: [:create]
+	skip_before_action :require_login, only: [:create]
 	def create
 		user = User.find_by login: params[:login],password: params[:password]
 		if user
 			if (user.token==nil)
-				user.token = SecureRandom.uuid.gsub("/.*m/","r9sk")
+				user.token = SecureRandom.uuid.gsub("/[aeiou]/","*")
 				user.save
 				render json: {message: "Bienvenido #{user.login}, Token ID: #{user.token}"}
 			else

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	rescue_from ActiveRecord::RecordNotFound, with: :r_not_found
 	#rescue_from ActionController::ParameterMissing, with: :params_message 
-	#before_action :require_login
+	before_action :require_login
 	def index
 		u = User.all
 		render json:u

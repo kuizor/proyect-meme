@@ -1,17 +1,19 @@
 class MemesController < ApplicationController
-	skip_before_action :require_login, only: [:create]
-	#before_action :require_login
+	#before_action :authenticate
+	before_action :authenticate, except: [:index, :update]
 	
 	def index
-		if (a = params[:id])
-			c = Meme.find(a)
-			render json: c
+		if (request.headers['Authorization']==nil)
+			meme = Meme.where(type_meme: "PUBLIC")
+			render json: meme
 		else
-			meme = Meme.all
-			render json:meme
+			meme = Meme.where(type_meme: "PUBLIC")
+			token =request.headers['Autorization']
+			user = User.find_by(token: token)
+			priv = Meme.where(user_id: user,type_meme:'PRIVATED')
+			render json: meme+priv
 		end
 	end
-
 	def show
 		meme = Meme.find(params[:id])
 		render json: meme
@@ -21,9 +23,16 @@ class MemesController < ApplicationController
 		meme = Meme.new(permit_params)
 		if meme.save
 			render json:{link: "#{meme.link}"}
-			#redirect_to meme
 		else
 			render json:{message: "No cool", errors: meme.errors.full_message}
+		end
+	end
+	def update
+		meme = Meme.find_by(params[:id])
+		if meme.update(permit_params)
+			render json:meme
+		else
+			render json:{message: "Errors!"}
 		end
 	end
 	def destroy
@@ -34,16 +43,18 @@ class MemesController < ApplicationController
 			render json:{message: "no Cool"}
 		end
 	end
-	def meme_privated
-		#valida usuario
-		meme = Meme.find(params[:id])
-	end
 	private 
 	def permit_params
-		params.require(:meme).permit(:id_img, :text_top, :text_buttom,:type_meme)
+		params.require(:meme).permit(:id_img, :text_top, :text_buttom,:type_meme, :vote)
 	end
 
 	def r_not_found(error)
 		render json: {error: error.message}, status: :not_found
 	end
+	def user_token
+		token =request.headers['Authorization']
+		@user = User.find_by(token: token)
+		@privated = Meme.find_by(type_meme: "PRIVATED", user_id: @user)
+	end
 end
+
