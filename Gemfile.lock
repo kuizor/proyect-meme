@@ -125,6 +125,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rmega (0.2.1)
     rubysl-securerandom (2.0.0)
     sass (3.4.21)
     sass-rails (5.0.4)
@@ -176,6 +177,7 @@ DEPENDENCIES
   mysql2 (>= 0.3.13, < 0.5)
   rails (= 4.2.5)
   rest-client (~> 1.8.0)
+  rmega (~> 0.2.1)
   rubysl-securerandom
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
