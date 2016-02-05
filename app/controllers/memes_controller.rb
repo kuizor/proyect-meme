@@ -1,5 +1,4 @@
 class MemesController < ApplicationController
-	#before_action :authenticate
 	before_action :authenticate, except: [:index, :update]
 	
 	def index
@@ -28,13 +27,26 @@ class MemesController < ApplicationController
 		end
 	end
 	def update
-		meme = Meme.find_by(params[:id])
-		if meme.update(permit_params)
-			render json:meme
+		id = params[:id]
+		id.to_i
+		meme = Meme.find(id)
+		if meme.type_meme=='PRIVATED'
+			render json:{message: "No se puede votar por un MEME Privado"}
 		else
-			render json:{message: "Errors!"}
+			if (permit_params)
+				if (params[:vote]>1)
+					render json:{message: "El voto no puede exceder de 1"}
+				else
+					meme.vote = meme.vote + params[:vote]
+					meme.save
+					render json: meme
+				end
+			else
+				render json:{message: "Errors!"}
+			end
 		end
 	end
+
 	def destroy
 		meme = Meme.find(params[:id])
 		if meme.destroy
@@ -50,11 +62,6 @@ class MemesController < ApplicationController
 
 	def r_not_found(error)
 		render json: {error: error.message}, status: :not_found
-	end
-	def user_token
-		token =request.headers['Authorization']
-		@user = User.find_by(token: token)
-		@privated = Meme.find_by(type_meme: "PRIVATED", user_id: @user)
 	end
 end
 

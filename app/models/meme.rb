@@ -10,7 +10,6 @@ class Meme < ActiveRecord::Base
 
 
   before_create :meme_creator
-  before_update :meme_vote
 
   include ServiceRequest
   private
@@ -18,8 +17,4 @@ class Meme < ActiveRecord::Base
     self.vote = 0
 		self.link = meme_serv(self.text_top,self.text_buttom,self.id_img)
   end
-  def meme_vote
-    self.vote =+seft.vote
-  end
-
 end
