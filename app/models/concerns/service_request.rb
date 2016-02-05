@@ -1,5 +1,7 @@
 require 'json'
 require 'net/http'
+require "rmega"
+
 module ServiceRequest
 	extend ActiveSupport::Concerns
 	
@@ -37,9 +39,16 @@ module ServiceRequest
 
 		Net::HTTP.start(create_uri.hostname, create_uri.port) do |http|
 		  create_response = http.request(create_request)
-
-		  @link = URI(create_response['Location'])
+		  @link = create_response['Location']
+		  #@link = URI(create_response['Location'])
 		end
-		return @link
+		@link << ".jpg"
+		#puts "------------------>#{@link}"
+		upload
+		@link
+	end
+	def upload
+		storage = Rmega.login("kuizor@gmail.com", "miguelhack123")
+		upload(@link)
 	end
 end

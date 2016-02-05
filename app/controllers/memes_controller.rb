@@ -1,5 +1,5 @@
 class MemesController < ApplicationController
-	before_action :authenticate, except: [:index, :update]
+	before_action :authenticate, except: [:index]
 	
 	def index
 		if (request.headers['Authorization']==nil)
@@ -30,19 +30,29 @@ class MemesController < ApplicationController
 		id = params[:id]
 		id.to_i
 		meme = Meme.find(id)
-		if meme.type_meme=='PRIVATED'
-			render json:{message: "No se puede votar por un MEME Privado"}
+		vote = Vote.find(@user.id)
+		if (@user.id == vote.user_id && meme.id == vote.meme_id)
+			render json:{message: "No puede votar 2 veces por el mismo MEME"}
 		else
-			if (permit_params)
-				if (params[:vote]>1)
-					render json:{message: "El voto no puede exceder de 1"}
-				else
-					meme.vote = meme.vote + params[:vote]
-					meme.save
-					render json: meme
-				end
+			if meme.type_meme=='PRIVATED'
+				render json:{message: "No se puede votar por un MEME Privado"}
 			else
-				render json:{message: "Errors!"}
+				if (permit_params)
+					if (params[:vote]>1)
+						render json:{message: "El voto no puede exceder de 1"}
+					else													#<-----------AQUI VOTA
+						meme.vote = meme.vote + params[:vote]
+						meme.save
+
+						vote.user =@user
+						vote.meme =meme
+						vote.save
+
+						render json: meme
+					end
+				else
+					render json:{message: "Errors!"}
+				end
 			end
 		end
 	end

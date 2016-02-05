@@ -12,11 +12,9 @@ class Meme < ActiveRecord::Base
   before_create :meme_creator
 
   include ServiceRequest
-  include UploadImg
   private
   def meme_creator
     self.vote = 0
 		self.link = meme_serv(self.text_top,self.text_buttom,self.id_img)
-    upload
   end
 end
